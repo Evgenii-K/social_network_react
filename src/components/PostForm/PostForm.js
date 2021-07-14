@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import './PostForm.css'
+import './PostForm.scss'
 
 function PostForm ({onAdd}) {
   const [value, setValue] = useState(
