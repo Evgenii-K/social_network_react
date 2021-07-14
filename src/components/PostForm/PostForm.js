@@ -45,7 +45,9 @@ function PostForm ({onAdd}) {
         placeholder='your name'
         className="form-send__input form-send__input--name"
       />
-      <input 
+      <textarea
+        rows="4" 
+        cols="50" 
         type='text'
         name='text'
         value={value.text}
