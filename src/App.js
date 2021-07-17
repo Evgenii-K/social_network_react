@@ -4,14 +4,27 @@ import Container from '@material-ui/core/Container';
 import MessageList from './components/MessageList/MessageList'
 import AppHeader from './components/App-header/App-header'
 import PostForm from './components/PostForm/PostForm'
+import { createTheme, ThemeProvider } from '@material-ui/core/styles'
+import { blueGrey } from '@material-ui/core/colors';
+
+const chatTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#d84315'
+    },
+    secondary: blueGrey
+  }
+})
 
 function App() {
   
   const [messageList, setMessageList] = useState([])
   
-  function onAddMessage (value) {
+  function onAddMessage ({text, author}) {
     setMessageList([...messageList, {
-      id: Date.now(), ...value
+      id: Date.now(), 
+      text,
+      author: author === '' ? 'anonymous' : author
     }])
   }
 
@@ -30,14 +43,14 @@ function App() {
   }, [messageList])
 
   return (
-    <React.Fragment>
+    <ThemeProvider theme={chatTheme}>
       <CssBaseline />
       <Container maxWidth="md">
         <AppHeader />
-        {messageList.length ? <MessageList messages={messageList}/> : <p>Message list is empty</p>}
+        <MessageList messages={messageList}/>
         <PostForm onAdd={onAddMessage} />
       </Container>
-    </React.Fragment>
+    </ThemeProvider>
   );
 }
 

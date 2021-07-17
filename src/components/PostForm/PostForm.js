@@ -62,6 +62,7 @@ function PostForm ({onAdd}) {
       >
         <div>
           <TextField
+            color="secondary"
             autoFocus
             required
             name='text'
@@ -83,6 +84,7 @@ function PostForm ({onAdd}) {
         >
           <Grid item xs={10}>
             <TextField
+              color="secondary"
               fullWidth
               type='text'
               name='author'
