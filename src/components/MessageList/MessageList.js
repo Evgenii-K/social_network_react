@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ChatList from '../ChatList/ChatList'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
@@ -12,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
   paperChat: {
-    // alignSelf: 'stretch',
     minHeight: '100%'
   },
   root: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MessageList ({messages, chats}) {
+function MessageList ({messages, chats}) {
 
   const classes = useStyles()
 
@@ -56,3 +56,10 @@ export default function MessageList ({messages, chats}) {
     </Paper>
   )
 }
+
+MessageList.prpTypes = {
+  messages: PropTypes.array,
+  chats: PropTypes.array
+}
+
+export default MessageList

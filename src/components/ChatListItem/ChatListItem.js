@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ListItem from '@material-ui/core/ListItem'
 import Avatar from '@material-ui/core/Avatar'
 import { makeStyles } from '@material-ui/core/styles'
@@ -13,7 +14,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function ChatListItem ({name}) {
+function ChatListItem ({name}) {
 
   const classes = useStyles()
 
@@ -29,3 +30,9 @@ export default function ChatListItem ({name}) {
     </>
   )
 }
+
+ChatListItem.propTypes = {
+  name: PropTypes.string
+}
+
+export default ChatListItem

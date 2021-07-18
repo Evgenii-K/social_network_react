@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
@@ -21,16 +22,22 @@ function Message({message}) {
 
   return (
     <>
-      <Grid sm spacing={1} className={classes.grid}>
+      <Grid className={classes.grid}>
         <Grid item xs={12}>
           <Typography color="primary">{ author }</Typography>
         </Grid>
-        <Grid item xs={12} borderBottom={1}>
-          <Typography className={classes.msg}>{ text }</Typography>
+        <Grid item xs={12}>
+          <Typography className={classes.msg} >
+            { text }
+          </Typography>
         </Grid>
       </Grid>
     </>
   );
+}
+
+Message.propTypes = {
+  message: PropTypes.object
 }
 
 export default Message
