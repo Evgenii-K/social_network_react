@@ -1,8 +1,6 @@
 import React from 'react'
+import ChatList from '../ChatList/ChatList'
 import Grid from '@material-ui/core/Grid'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Message from '../Message/Message'
@@ -14,12 +12,14 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
   paperChat: {
-    alignSelf: 'stretch',
+    // alignSelf: 'stretch',
     minHeight: '100%'
   },
   root: {
     flexGrow: 1,
     overflow: 'hidden',
+    alignSelf: 'stretch',
+    minHeight: '100%'
   },
   grid: {
     margin: `${theme.spacing(1)}px`,
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ChatList ({messages}) {
+export default function MessageList ({messages, chats}) {
 
   const classes = useStyles()
 
@@ -39,20 +39,10 @@ export default function ChatList ({messages}) {
         justifyContent="center"
         alignItems="flex-start"
       >
-        <Grid item xs={2}>
-          <List 
-            component="nav" 
-            aria-label="secondary mailbox folders"
-          >
-            <ListItem button>
-              <ListItemText primary="Trash" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Spam" />
-            </ListItem>
-          </List>
+        <Grid item xs={3}>
+          <ChatList chats={chats}/>
         </Grid>
-        <Grid item xs={10} className={[classes.paperChat, classes.root]}>
+        <Grid item xs={9} className={classes.root}>
           <Paper variant="outlined" square className={classes.paperChat}>
             {messages.length 
               ? messages.map(message => {

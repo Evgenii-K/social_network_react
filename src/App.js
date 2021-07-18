@@ -19,6 +19,10 @@ const chatTheme = createTheme({
 function App() {
   
   const [messageList, setMessageList] = useState([])
+  const [chatList, setChatList] = useState([
+    {id: 123, name: 'FirstName'},
+    {id: 456, name: 'SecondName'}
+  ])
   
   function onAddMessage ({text, author}) {
     setMessageList([...messageList, {
@@ -47,7 +51,7 @@ function App() {
       <CssBaseline />
       <Container maxWidth="md">
         <AppHeader />
-        <MessageList messages={messageList}/>
+        <MessageList messages={messageList} chats={chatList}/>
         <PostForm onAdd={onAddMessage} />
       </Container>
     </ThemeProvider>
