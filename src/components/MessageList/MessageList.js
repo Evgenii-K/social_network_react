@@ -46,7 +46,8 @@ function MessageList ({messages, chats}) {
           <Paper variant="outlined" square className={classes.paperChat}>
             {messages.length 
               ? messages.map(message => {
-               return <Message message={message} key={message.id}/>
+                const {id, ...msg} = message
+                return <Message {...msg} key={id}/>
               })
               : <Typography className={classes.grid}>Message list is empty</Typography>
             }

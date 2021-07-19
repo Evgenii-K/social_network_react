@@ -15,9 +15,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Message({message}) {
+function Message({text, author}) {
 
-  const {text, author} = message
   const classes = useStyles()
 
   return (
@@ -37,7 +36,8 @@ function Message({message}) {
 }
 
 Message.propTypes = {
-  message: PropTypes.object
+  text: PropTypes.string,
+  author: PropTypes.string
 }
 
 export default Message
