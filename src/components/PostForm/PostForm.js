@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function PostForm ({onAdd}) {
+function PostForm ({onAdd, formRef}) {
 
   const classes = useStyles()
 
@@ -54,7 +54,7 @@ function PostForm ({onAdd}) {
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} ref={formRef}>
       <form 
         onSubmit={sendMessage}
         className={classes.root}
@@ -94,7 +94,7 @@ function PostForm ({onAdd}) {
               label='Name'
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} >
             <Button
               fullWidth
               type="submit"

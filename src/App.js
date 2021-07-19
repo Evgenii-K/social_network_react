@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import MessageList from './components/MessageList/MessageList'
@@ -23,6 +23,9 @@ function App() {
     {id: 123, name: 'FirstName'},
     {id: 456, name: 'SecondName'}
   ])
+
+  const formRef = useRef('')
+  const timer = useRef(null)
   
   function onAddMessage ({text, author}) {
     setMessageList([...messageList, {
@@ -36,7 +39,7 @@ function App() {
     if (messageList.length) {
       const lastAuthor = messageList[messageList.length - 1].author
       if (lastAuthor !== 'Bot')
-      setTimeout(() => {
+      timer.current = setTimeout(() => {
         setMessageList([...messageList, {
           id: Date.now(),
           author: 'Bot',
@@ -44,7 +47,12 @@ function App() {
         }])
       }, 1500)
     }
+    window.scrollTo({ top: formRef.current.offsetTop, left: 0, behavior: 'smooth' })
   }, [messageList])
+
+  useEffect(() => {
+    return () => clearTimeout(timer.current)
+  }, [])
 
   return (
     <ThemeProvider theme={chatTheme}>
@@ -52,10 +60,10 @@ function App() {
       <Container maxWidth="md">
         <AppHeader />
         <MessageList messages={messageList} chats={chatList}/>
-        <PostForm onAdd={onAddMessage} />
+        <PostForm onAdd={onAddMessage} formRef={formRef}/>
       </Container>
     </ThemeProvider>
   );
 }
 
-export default App;
+export default App
