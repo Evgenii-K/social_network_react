@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react'
+import {useState, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
@@ -52,6 +52,7 @@ function PostForm ({onAdd, formRef}) {
       }
     })
   }
+
 
   return (
     <Paper className={classes.paper} ref={formRef}>

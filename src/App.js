@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import MessageList from './components/MessageList/MessageList'
+import Chats from './components/Chats/Chats'
 import AppHeader from './components/App-header/App-header'
 import PostForm from './components/PostForm/PostForm'
 import { createTheme, ThemeProvider } from '@material-ui/core/styles'
@@ -43,24 +43,24 @@ function App() {
         setMessageList([...messageList, {
           id: Date.now(),
           author: 'Bot',
-          text: `Answer to ${lastAuthor}: Lorem ipsum dolor sit amet.`
+          text: `Привет ${lastAuthor}!`
         }])
       }, 1500)
     }
     window.scrollTo({ top: formRef.current.offsetTop, left: 0, behavior: 'smooth' })
   }, [messageList])
 
-  useEffect(() => {
-    return () => clearTimeout(timer.current)
-  }, [])
+  // useEffect(() => {
+  //   return () => clearTimeout(timer.current)
+  // }, [])
 
   return (
     <ThemeProvider theme={chatTheme}>
       <CssBaseline />
       <Container maxWidth="md">
         <AppHeader />
-        <MessageList messages={messageList} chats={chatList}/>
-        <PostForm onAdd={onAddMessage} formRef={formRef}/>
+        <Chats messages={messageList} chats={chatList}/>
+        <PostForm onAdd={onAddMessage} formRef={formRef} />
       </Container>
     </ThemeProvider>
   );
