@@ -1,4 +1,4 @@
-import {useState, useRef } from 'react'
+import {useState, useRef, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
@@ -20,6 +20,8 @@ function PostForm ({onAdd, formRef}) {
 
   const classes = useStyles()
 
+  const timer = useRef(null)
+
   const [value, setValue] = useState(
     {
       text: '', 
@@ -33,15 +35,33 @@ function PostForm ({onAdd, formRef}) {
     event.preventDefault()
     if (value.text.trim()) {
       onAdd(value)
+
+      const lastAuthor = value.author.length ? value.author : 'anonymous'
+
+      timer.current = setTimeout(() => {
+        console.log('setTimeout')
+        const msg = bot(lastAuthor)
+        onAdd(msg)
+      }, 1500)
+
       setValue((current) => {
         return {
           text: '',
-          author: current.author === 'anonymous' ? '' : current.author
+          author: current.author.length ? current.author : ''
         }
       })
       inputRef.current.focus()
     }
   }
+
+  function bot (lastAuthor) {
+    return { text: `Привет ${lastAuthor}!`, author: 'Bot' }
+  }
+
+  useEffect(() => {
+    console.log('clear')
+    return () => clearTimeout(timer.current)
+  }, [])
 
   function onChange (event) {
     const value = event.target.value

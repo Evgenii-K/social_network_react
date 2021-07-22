@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import MessageList from '../MessageList/MessageList'
 import { makeStyles } from '@material-ui/core/styles'
+import PostForm from '../PostForm/PostForm'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -18,26 +19,29 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Chats ({messages, chats}) {
+function Chats ({messages, chats, onAdd, formRef}) {
 
   const classes = useStyles()
 
   return (
-    <Paper className={classes.paper}>
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="flex-start"
-      >
-        <Grid item xs={3}>
-          <ChatList chats={chats}/>
+    <>
+      <Paper className={classes.paper}>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="flex-start"
+        >
+          <Grid item xs={3}>
+            <ChatList chats={chats}/>
+          </Grid>
+          <Grid item xs={9} className={classes.root}>
+            <MessageList messages={messages}/>
+          </Grid>
         </Grid>
-        <Grid item xs={9} className={classes.root}>
-          <MessageList messages={messages}/>
-        </Grid>
-      </Grid>
-    </Paper>
+      </Paper>
+      <PostForm onAdd={onAdd} formRef={formRef}/>
+    </>
   )
 }
 

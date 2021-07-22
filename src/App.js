@@ -2,10 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Chats from './components/Chats/Chats'
+import HomePage from './components/HomePage/HomePage'
+import Profile from './components/Profile/Profile'
 import AppHeader from './components/App-header/App-header'
-import PostForm from './components/PostForm/PostForm'
 import { createTheme, ThemeProvider } from '@material-ui/core/styles'
 import { blueGrey } from '@material-ui/core/colors';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";
 
 const chatTheme = createTheme({
   palette: {
@@ -25,9 +33,9 @@ function App() {
   ])
 
   const formRef = useRef('')
-  const timer = useRef(null)
   
   function onAddMessage ({text, author}) {
+    console.log('list in func', messageList );  
     setMessageList([...messageList, {
       id: Date.now(), 
       text,
@@ -36,33 +44,31 @@ function App() {
   }
 
   useEffect(() => {
-    if (messageList.length) {
-      const lastAuthor = messageList[messageList.length - 1].author
-      if (lastAuthor !== 'Bot')
-      timer.current = setTimeout(() => {
-        setMessageList([...messageList, {
-          id: Date.now(),
-          author: 'Bot',
-          text: `Привет ${lastAuthor}!`
-        }])
-      }, 1500)
-    }
+    if (!messageList.length) return
+    console.log(messageList)
     window.scrollTo({ top: formRef.current.offsetTop, left: 0, behavior: 'smooth' })
   }, [messageList])
 
-  // useEffect(() => {
-  //   return () => clearTimeout(timer.current)
-  // }, [])
-
   return (
-    <ThemeProvider theme={chatTheme}>
-      <CssBaseline />
-      <Container maxWidth="md">
-        <AppHeader />
-        <Chats messages={messageList} chats={chatList}/>
-        <PostForm onAdd={onAddMessage} formRef={formRef} />
-      </Container>
-    </ThemeProvider>
+    <Router>
+      <ThemeProvider theme={chatTheme}>
+        <CssBaseline />
+        <Container maxWidth="md">
+          <AppHeader />
+          <Switch>
+            <Route path='/' exact>
+              <HomePage />
+            </Route>
+            <Route path='/profile'>
+              <Profile />
+            </Route>
+            <Route path='/chats'>
+              <Chats messages={messageList} chats={chatList} onAdd={onAddMessage} formRef={formRef} />
+            </Route>
+          </Switch>
+        </Container>
+      </ThemeProvider>
+    </Router>
   );
 }
 
