@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ChatList from '../ChatList/ChatList'
 import Grid from '@material-ui/core/Grid'
@@ -19,9 +20,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Chats ({messages, chats, onAdd, formRef}) {
+function Chats ({messages, chats, onAdd}) {
 
   const classes = useStyles()
+
+  const formRef = useRef('')
+
+  useEffect(() => {
+    if (!messages.length) return
+    window.scrollTo({ top: formRef.current.offsetTop, left: 0, behavior: 'smooth' })
+  }, [messages])
 
   return (
     <>

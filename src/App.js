@@ -1,19 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Chats from './components/Chats/Chats'
 import HomePage from './components/HomePage/HomePage'
 import Profile from './components/Profile/Profile'
 import AppHeader from './components/App-header/App-header'
+import Page404 from './components/Page404/Page404'
 import { createTheme, ThemeProvider } from '@material-ui/core/styles'
 import { blueGrey } from '@material-ui/core/colors';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useRouteMatch,
-  useParams
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const chatTheme = createTheme({
   palette: {
@@ -32,8 +27,6 @@ function App() {
     {id: 456, name: 'SecondName'}
   ])
 
-  const formRef = useRef('')
-  
   function onAddMessage ({text, author}) {
     setMessageList((current) => [...current, {
       id: Date.now(), 
@@ -41,11 +34,6 @@ function App() {
       author: author === '' ? 'anonymous' : author
     }])
   }
-
-  useEffect(() => {
-    if (!messageList.length) return
-    window.scrollTo({ top: formRef.current.offsetTop, left: 0, behavior: 'smooth' })
-  }, [messageList])
 
   return (
     <Router>
@@ -61,7 +49,10 @@ function App() {
               <Profile />
             </Route>
             <Route path='/chats'>
-              <Chats messages={messageList} chats={chatList} onAdd={onAddMessage} formRef={formRef} />
+              <Chats messages={messageList} chats={chatList} onAdd={onAddMessage} />
+            </Route>
+            <Route>
+              <Page404 />
             </Route>
           </Switch>
         </Container>

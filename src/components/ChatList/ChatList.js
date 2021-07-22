@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import List from '@material-ui/core/List'
 import ChatListItem from '../ChatListItem/ChatListItem'
 import { makeStyles } from '@material-ui/core/styles'
+// import { useRouteMatch, useParams } from 'react-router-dom'
 
 const useStyles = makeStyles(() => ({
   list: {
