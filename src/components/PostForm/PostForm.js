@@ -39,7 +39,6 @@ function PostForm ({onAdd, formRef}) {
       const lastAuthor = value.author.length ? value.author : 'anonymous'
 
       timer.current = setTimeout(() => {
-        console.log('setTimeout')
         const msg = bot(lastAuthor)
         onAdd(msg)
       }, 1500)
@@ -59,7 +58,6 @@ function PostForm ({onAdd, formRef}) {
   }
 
   useEffect(() => {
-    console.log('clear')
     return () => clearTimeout(timer.current)
   }, [])
 

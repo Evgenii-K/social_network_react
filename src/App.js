@@ -35,8 +35,7 @@ function App() {
   const formRef = useRef('')
   
   function onAddMessage ({text, author}) {
-    console.log('list in func', messageList );  
-    setMessageList([...messageList, {
+    setMessageList((current) => [...current, {
       id: Date.now(), 
       text,
       author: author === '' ? 'anonymous' : author
@@ -45,7 +44,6 @@ function App() {
 
   useEffect(() => {
     if (!messageList.length) return
-    console.log(messageList)
     window.scrollTo({ top: formRef.current.offsetTop, left: 0, behavior: 'smooth' })
   }, [messageList])
 
