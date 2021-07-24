@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Chats from './components/Chats/Chats'
@@ -21,20 +20,6 @@ const chatTheme = createTheme({
 
 function App() {
   
-  const [messageList, setMessageList] = useState([])
-  const [chatList, setChatList] = useState([
-    {id: 123, name: 'FirstName'},
-    {id: 456, name: 'SecondName'}
-  ])
-
-  function onAddMessage ({text, author}) {
-    setMessageList((current) => [...current, {
-      id: Date.now(), 
-      text,
-      author: author === '' ? 'anonymous' : author
-    }])
-  }
-
   return (
     <Router>
       <ThemeProvider theme={chatTheme}>
@@ -48,9 +33,15 @@ function App() {
             <Route path='/profile'>
               <Profile />
             </Route>
-            <Route path='/chats'>
-              <Chats messages={messageList} chats={chatList} onAdd={onAddMessage} />
+            <Route path='/chats' exact>
+              <Chats />
             </Route>
+            <Route path='/chats/:chatId' render={
+              ({match}) => {
+                const {chatId} = match.params
+                return <Chats chatId={chatId}/>
+              }
+            } />
             <Route>
               <Page404 />
             </Route>

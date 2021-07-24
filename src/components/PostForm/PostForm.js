@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 import Grid from '@material-ui/core/Grid'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function PostForm ({onAdd, formRef}) {
+function PostForm ({onAdd=f=>f, formRef}) {
 
   const classes = useStyles()
 
@@ -103,6 +104,8 @@ function PostForm ({onAdd, formRef}) {
         >
           <Grid item xs={10}>
             <TextField
+              variant="outlined"
+              size="small"
               color="secondary"
               fullWidth
               type='text'
@@ -129,6 +132,11 @@ function PostForm ({onAdd, formRef}) {
       </form>
     </Paper>
   )
+}
+
+PostForm.propTypes = {
+  onAdd: PropTypes.func,
+  formRef: PropTypes.object
 }
 
 export default PostForm

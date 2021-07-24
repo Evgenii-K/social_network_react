@@ -8,8 +8,12 @@ const useStyles = makeStyles(() => ({
   paperChat: {
     minHeight: '100%'
   },
-  grid: {
-    color: 'rgba(0, 0, 0, 0.54)'
+  empty: {
+    display: 'flex',
+    justifyContent: 'center',
+    color: 'rgba(0, 0, 0, 0.54)',
+    paddingTop: '20px',
+    fontSize: '20px'
   }
 }));
 
@@ -24,7 +28,7 @@ function MessageList ({messages}) {
           const {id, ...msg} = message
           return <Message {...msg} key={id}/>
         })
-        : <Typography className={classes.grid}>Message list is empty</Typography>
+        : <Typography className={classes.empty}>Message list is empty</Typography>
       }
     </Paper>
   )
