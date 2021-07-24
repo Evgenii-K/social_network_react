@@ -1,7 +1,25 @@
-import React, {useState} from 'react'
-import './PostForm.css'
+import React, {useState, useRef} from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
+import Icon from '@material-ui/core/Icon'
+import Grid from '@material-ui/core/Grid'
 
-function PostForm ({onAdd}) {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    margin: `${theme.spacing(1)}px auto`,
+    padding: theme.spacing(2),
+  }
+}));
+
+function PostForm ({onAdd, formRef}) {
+
+  const classes = useStyles()
+
   const [value, setValue] = useState(
     {
       text: '', 
@@ -9,17 +27,20 @@ function PostForm ({onAdd}) {
     }
   )
 
+  const inputRef = useRef('')
+
   function sendMessage (event) {
     event.preventDefault()
     if (value.text.trim()) {
       onAdd(value)
+      setValue((current) => {
+        return {
+          text: '',
+          author: current.author === 'anonymous' ? '' : current.author
+        }
+      })
+      inputRef.current.focus()
     }
-    setValue(() => {
-      return {
-        text: '', 
-        author: ''
-      }
-    })
   }
 
   function onChange (event) {
@@ -33,35 +54,61 @@ function PostForm ({onAdd}) {
   }
 
   return (
-    <form 
-      className="form-send"
-      onSubmit={sendMessage}
-    >
-      <input 
-        type='text'
-        name='author'
-        value={value.author}
-        onChange={onChange}
-        placeholder='your name'
-        className="form-send__input form-send__input--name"
-      />
-      <textarea
-        rows="4" 
-        cols="50" 
-        type='text'
-        name='text'
-        value={value.text}
-        onChange={onChange}
-        placeholder='type your text here'
-        className="form-send__input form-send__input--text"
-      />
-      <button
-        type="submit"
-        className="form-send__btn"
+    <Paper className={classes.paper} ref={formRef}>
+      <form 
+        onSubmit={sendMessage}
+        className={classes.root}
+        autoComplete="off"
       >
-        Send message
-      </button>
-    </form>
+        <div>
+          <TextField
+            color="secondary"
+            autoFocus
+            required
+            name='text'
+            label="Type your text here"
+            fullWidth
+            multiline
+            rows={4}
+            variant="outlined"
+            value={value.text}
+            onChange={onChange}
+            inputRef={inputRef}
+          />
+        </div>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item xs={10}>
+            <TextField
+              color="secondary"
+              fullWidth
+              type='text'
+              name='author'
+              placeholder="Type your name here"
+              value={value.author}
+              onChange={onChange}
+              label='Name'
+            />
+          </Grid>
+          <Grid item xs={2} >
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              endIcon={<Icon>send</Icon>}
+            >
+              Send
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+    </Paper>
   )
 }
 
