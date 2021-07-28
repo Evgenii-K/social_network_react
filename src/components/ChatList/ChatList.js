@@ -56,15 +56,16 @@ function ChatList ({chatsList, onDelete=f=>f, onAddChat=f=>f}) {
       }
     <Button variant="contained" color="primary" onClick={() => onAddChat(chatName)}>Add a new chat</Button>
     <TextField
-      size="small"
+      // size="small"
       color="secondary"
       variant="outlined"
       fullWidth
+      placeholder="New chat name"
       type='text'
       name='name'
       value={chatName}
       onChange={(event) => setChatName(event.target.value)}
-      label='New chat name'
+      // label='New chat name'
     />
     </List>
   )

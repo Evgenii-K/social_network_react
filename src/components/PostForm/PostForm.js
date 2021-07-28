@@ -37,7 +37,7 @@ function PostForm ({onAdd=f=>f, formRef}) {
     if (value.text.trim()) {
       onAdd(value)
 
-      const lastAuthor = value.author.length ? value.author : 'anonymous'
+      const lastAuthor = value.author || 'anonymous'
 
       timer.current = setTimeout(() => {
         const msg = bot(lastAuthor)

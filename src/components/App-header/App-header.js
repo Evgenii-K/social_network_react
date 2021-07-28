@@ -30,10 +30,10 @@ function AppHeader () {
   const location = useLocation()
 
   function activeLink (to, location) {
+    location = location.pathname.split('/')[1]
     to = to.split('/')[1]
-    location = location.split('/')[1]
 
-    return to === location
+    return to === location ? 'li active' : 'li'
   }
 
   return (
@@ -43,13 +43,13 @@ function AppHeader () {
       </h1>
       <nav>
         <ul className={classes.ul}>
-          <li className={activeLink('/', location.pathname) ? 'li active' : 'li'}>
+          <li className={activeLink('/', location)}>
             <Link to="/" className={classes.link}>Home</Link>
           </li>
-          <li className={activeLink('/chats', location.pathname) ? 'li active' : 'li'}>
+          <li className={activeLink('/chats', location)}>
             <Link to="/chats" className={classes.link}>Chats</Link>
           </li>
-          <li className={activeLink('/profile', location.pathname) ? 'li active' : 'li'}>
+          <li className={activeLink('/profile', location)}>
             <Link to="/profile" className={classes.link}>Profile</Link>
           </li>
         </ul>

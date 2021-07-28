@@ -1,11 +1,8 @@
 import { useRef, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import ChatList from '../ChatList/ChatList'
-import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
 import MessageList from '../MessageList/MessageList'
-import { makeStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import { makeStyles, Typography, Grid, Paper } from '@material-ui/core'
 import PostForm from '../PostForm/PostForm'
 import {Redirect} from 'react-router'
 
