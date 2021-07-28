@@ -1,10 +1,11 @@
-import React, {useState, useRef} from 'react'
+import {useState, useRef, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 import Grid from '@material-ui/core/Grid'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,9 +17,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function PostForm ({onAdd, formRef}) {
+function PostForm ({onAdd=f=>f, formRef}) {
 
   const classes = useStyles()
+
+  const timer = useRef(null)
 
   const [value, setValue] = useState(
     {
@@ -33,15 +36,31 @@ function PostForm ({onAdd, formRef}) {
     event.preventDefault()
     if (value.text.trim()) {
       onAdd(value)
+
+      const lastAuthor = value.author.length ? value.author : 'anonymous'
+
+      timer.current = setTimeout(() => {
+        const msg = bot(lastAuthor)
+        onAdd(msg)
+      }, 1500)
+
       setValue((current) => {
         return {
           text: '',
-          author: current.author === 'anonymous' ? '' : current.author
+          author: current.author.length ? current.author : ''
         }
       })
       inputRef.current.focus()
     }
   }
+
+  function bot (lastAuthor) {
+    return { text: `Привет ${lastAuthor}!`, author: 'Bot' }
+  }
+
+  useEffect(() => {
+    return () => clearTimeout(timer.current)
+  }, [])
 
   function onChange (event) {
     const value = event.target.value
@@ -52,6 +71,7 @@ function PostForm ({onAdd, formRef}) {
       }
     })
   }
+
 
   return (
     <Paper className={classes.paper} ref={formRef}>
@@ -84,6 +104,8 @@ function PostForm ({onAdd, formRef}) {
         >
           <Grid item xs={10}>
             <TextField
+              variant="outlined"
+              size="small"
               color="secondary"
               fullWidth
               type='text'
@@ -110,6 +132,11 @@ function PostForm ({onAdd, formRef}) {
       </form>
     </Paper>
   )
+}
+
+PostForm.propTypes = {
+  onAdd: PropTypes.func,
+  formRef: PropTypes.object
 }
 
 export default PostForm
