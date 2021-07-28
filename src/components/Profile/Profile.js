@@ -1,5 +1,7 @@
 import FormControl from '@material-ui/core/FormControl';
 import {Input, Grid, FormHelperText, InputLabel, FormControlLabel, RadioGroup, Radio, Button, Icon, makeStyles } from '@material-ui/core';
+import * as actions from '../../store/actions'
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -7,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Profile ({gender, handleChange}) {
+function Profile ({values, handleChange}) {
 
   const classes = useStyles()
 
@@ -21,21 +23,21 @@ export default function Profile ({gender, handleChange}) {
       >
         <Grid item xs={4}>
           <InputLabel htmlFor="First_name" className={classes.root}>Your Name</InputLabel>
-          <Input id="firstName" placeholder="First name" fullWidth className={classes.root} name="firstName"/>
-          <Input id="lastName" placeholder="Last name" fullWidth className={classes.root} name="lastName"/>
+          <Input placeholder="First name" fullWidth className={classes.root} name="firstName" value={values.firstName} onChange={handleChange}/>
+          <Input placeholder="Last name" fullWidth className={classes.root} name="lastName" value={values.lastName} onChange={handleChange}/>
         
           <FormControl component="fieldset" className={classes.root}>
-            <RadioGroup aria-label="gender" name="gender" value={gender} onChange={handleChange} row>
+            <RadioGroup aria-label="gender" name="gender" value={values.gender} onChange={handleChange} row>
               <FormControlLabel value="female" control={<Radio />} label="Female" />
               <FormControlLabel value="male" control={<Radio />} label="Male" />
             </RadioGroup>
           </FormControl>
 
           <InputLabel htmlFor="email" className={classes.root} >Login details</InputLabel>
-          <Input id="email" aria-describedby="email" placeholder="Email" fullWidth className={classes.root} />
+          <Input name="email" value={values.email} aria-describedby="email" placeholder="Email" fullWidth className={classes.root} onChange={handleChange}/>
           <FormHelperText id="email">We'll never share your email.</FormHelperText>
 
-          <Input id="password" aria-describedby="password" placeholder="Password" fullWidth className={classes.root} />
+          <Input name="password" value={values.password} aria-describedby="password" placeholder="Password" fullWidth className={classes.root} onChange={handleChange}/>
           <FormHelperText id="password">Please use 8 or more characters, with at least 1 number and a
             mixture
             of.</FormHelperText>
@@ -53,3 +55,11 @@ export default function Profile ({gender, handleChange}) {
     </>
   )
 }
+
+const mapStateToProps = (state) => {
+  return {
+    values: state.profile.values
+  }
+}
+
+export default connect(mapStateToProps, actions)(Profile)
