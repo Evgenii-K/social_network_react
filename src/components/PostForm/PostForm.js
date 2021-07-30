@@ -9,6 +9,11 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
+  },
+  send: {
+    paddingTop: theme.spacing(2),
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 }));
 
@@ -96,8 +101,9 @@ function PostForm ({onAdd=f=>f, formRef}) {
           direction="row"
           justifyContent="center"
           alignItems="center"
+          className={classes.send}
         >
-          <Grid item xs={10}>
+          <Grid item xs={9}>
             <TextField
               variant="outlined"
               size="small"

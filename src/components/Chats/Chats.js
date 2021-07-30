@@ -1,10 +1,13 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import ChatList from '../ChatList/ChatList'
 import MessageList from '../MessageList/MessageList'
 import { makeStyles, Typography, Grid, Paper } from '@material-ui/core'
 import PostForm from '../PostForm/PostForm'
 import {Redirect} from 'react-router'
+import { chatsKeysSelector, chatsSelector, chatsListInit } from '../../store/selectors/chats'
+import { useDispatch, useSelector } from 'react-redux'
+import { addChatAction, onDeleteAction, onAddMessageAction } from '../../store/actions'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -30,21 +33,35 @@ function Chats ({chatId}) {
 
   const classes = useStyles()
   const formRef = useRef('')
+  const dispatch = useDispatch()
 
-  const [chats, setChats] = useState({
-    id1: { name: 'FirstChat', messages: [
-      {id: 1231, text: 'Привет', author: 'Ivan'},
-      {id: 1321, text: 'Привет', author: 'Bot'}
-    ]},
-    id2: { name: 'SecondChat', messages: [
-      {id: 1231, text: 'Bay', author: 'Jacob'},
-      {id: 1321, text: 'Bay', author: 'Bot'}
-    ]}
-  })
+  const onAddChat = useCallback(
+    (newName) => {
+      dispatch(addChatAction(newName))
+    },
+    [dispatch],
+  )
+
+  const onDelete = useCallback(
+    (id) => {
+      dispatch(onDeleteAction(id))
+    },
+    [dispatch],
+  )
+
+  const onAdd = useCallback(
+    (message) => {
+      message = 
+      dispatch(onAddMessageAction(message, chatId))
+    },
+    [dispatch, chatId],
+  )
+
+  const chats = useSelector(chatsSelector)
+  const keys = useSelector(chatsKeysSelector)
+  const chatsList = useSelector(chatsListInit)
 
   const messages = (chats[chatId]) ? chats[chatId].messages : ''
-  const keys = Object.keys(chats)
-  const chatsList = chatsListInit()
 
   useEffect(() => {
     if (!messages.length) return
@@ -52,44 +69,6 @@ function Chats ({chatId}) {
   }, [messages])
 
   if (chatId && !keys.includes(chatId)) return <Redirect to="/chats" />
-
-  function chatsListInit () {
-    return keys.map(key => ({id: key, name: chats[key].name}))
-  }
-
-  function onAdd ({text, author}) {
-    const newMsg = {
-      id: Date.now(), 
-      text,
-      author: author === '' ? 'anonymous' : author
-    }
-    setChats(current => {
-      current[chatId].messages = [...current[chatId].messages, newMsg]
-      return {...current, [chatId]: current[chatId]}
-    })
-  }
-
-  function onDelete (id) {
-    setChats(currentChats => {
-      return (
-        Object.fromEntries(
-          Object.entries(currentChats)
-            .filter(item => item[0] !== id)
-        )
-      )
-    })
-  }
-
-  function onAddChat (newName) {
-    let nextId = 'id0'
-    let keys = Object.keys(chats)
-    if (keys) {
-      keys = keys.map(key => key[2])
-      nextId = `id${Math.max.apply(null, keys) + 1}`
-    }
-
-    setChats(current => ({...current, [nextId]: {name: newName, messages: []}}))
-  }
 
   return (
     <>

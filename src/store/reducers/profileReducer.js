@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { PROFILE_HANDLECHANGE } from "../types"
 
 const initialStateProfile = {
   values: {
@@ -10,9 +10,9 @@ const initialStateProfile = {
   }
 }
 
-function storeProfile (state = initialStateProfile, actions) {
+export default function stateProfile (state = initialStateProfile, actions) {
   switch (actions.type) {
-    case 'handleChange': 
+    case PROFILE_HANDLECHANGE: 
       const value = actions.payload.value
       const name = actions.payload.name
       const values = {...state.values, [name]: value}
@@ -23,7 +23,3 @@ function storeProfile (state = initialStateProfile, actions) {
       return state
   }
 }
-
-export default combineReducers({
-  profile: storeProfile
-})

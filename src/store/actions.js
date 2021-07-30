@@ -1,1 +1,0 @@
-export const handleChange = (event) => ({type: 'handleChange', payload: event.target})
