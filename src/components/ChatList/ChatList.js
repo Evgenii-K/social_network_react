@@ -1,9 +1,12 @@
-import {useState} from 'react'
-import PropTypes from 'prop-types'
+import {useState, useCallback} from 'react'
 import ChatListItem from '../ChatListItem/ChatListItem'
 import { makeStyles, List, Button, TextField, IconButton } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useDispatch, useSelector } from 'react-redux'
+import { chatsListInit } from '../../store/selectors/chats'
+import { addChatAction, onDeleteAction } from '../../store/actions'
+
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -25,7 +28,25 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function ChatList ({chatsList, onDelete=f=>f, onAddChat=f=>f}) {
+function ChatList () {
+
+  const dispatch = useDispatch()
+
+  const chatsList = useSelector(chatsListInit)
+
+  const onDelete = useCallback(
+    (id) => {
+      dispatch(onDeleteAction(id))
+    },
+    [dispatch],
+  )
+  
+  const onAddChat = useCallback(
+    (newName) => {
+      dispatch(addChatAction(newName))
+    },
+    [dispatch],
+  )
 
   const classes = useStyles()
 
@@ -86,12 +107,6 @@ function ChatList ({chatsList, onDelete=f=>f, onAddChat=f=>f}) {
       </form>
     </>
   )
-}
-
-ChatList.propTypes = {
-  chatsList: PropTypes.array,
-  onDelete: PropTypes.func,
-  onAddChat:PropTypes.func
 }
 
 export default ChatList

@@ -1,13 +1,12 @@
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ChatList from '../ChatList/ChatList'
 import MessageList from '../MessageList/MessageList'
 import { makeStyles, Typography, Grid, Paper } from '@material-ui/core'
 import PostForm from '../PostForm/PostForm'
 import {Redirect} from 'react-router'
-import { chatsKeysSelector, chatsSelector, chatsListInit } from '../../store/selectors/chats'
-import { useDispatch, useSelector } from 'react-redux'
-import { addChatAction, onDeleteAction, onAddMessageAction } from '../../store/actions'
+import { chatsKeysSelector, chatsSelector } from '../../store/selectors/chats'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,33 +32,9 @@ function Chats ({chatId}) {
 
   const classes = useStyles()
   const formRef = useRef('')
-  const dispatch = useDispatch()
-
-  const onAddChat = useCallback(
-    (newName) => {
-      dispatch(addChatAction(newName))
-    },
-    [dispatch],
-  )
-
-  const onDelete = useCallback(
-    (id) => {
-      dispatch(onDeleteAction(id))
-    },
-    [dispatch],
-  )
-
-  const onAdd = useCallback(
-    (message) => {
-      message = 
-      dispatch(onAddMessageAction(message, chatId))
-    },
-    [dispatch, chatId],
-  )
 
   const chats = useSelector(chatsSelector)
   const keys = useSelector(chatsKeysSelector)
-  const chatsList = useSelector(chatsListInit)
 
   const messages = (chats[chatId]) ? chats[chatId].messages : ''
 
@@ -80,14 +55,14 @@ function Chats ({chatId}) {
           alignItems="flex-start"
         >
           <Grid item xs={3}>
-            <ChatList chatsList={chatsList} onDelete={onDelete} onAddChat={onAddChat}/>
+            <ChatList />
           </Grid>
           <Grid item xs={9} className={classes.root}>
             {chatId ? <MessageList messages={messages}/> : <Typography className={classes.empty}>Select chat</Typography>}
           </Grid>
         </Grid>
       </Paper>
-      {chatId ? <PostForm onAdd={onAdd} formRef={formRef}/> : null}
+      {chatId ? <PostForm chatId={chatId} formRef={formRef}/> : null}
     </>
   )
 }
