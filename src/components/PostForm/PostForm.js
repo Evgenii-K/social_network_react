@@ -3,6 +3,7 @@ import { makeStyles, TextField, Paper, Button, Icon, Grid } from '@material-ui/c
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { onAddMessageAction } from '../../store/actions'
+import { useRouteMatch } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,13 +20,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function PostForm ({chatId, formRef}) {
+function PostForm ({formRef}) {
 
+  const { chatId }= useRouteMatch().params
+  
   const dispatch = useDispatch()
   
   const onAdd = useCallback(
     (message) => {
-      message = 
+      // message = 
       dispatch(onAddMessageAction(message, chatId))
     },
     [dispatch, chatId],
@@ -148,7 +151,6 @@ function PostForm ({chatId, formRef}) {
 }
 
 PostForm.propTypes = {
-  chatId: PropTypes.string,
   formRef: PropTypes.object
 }
 

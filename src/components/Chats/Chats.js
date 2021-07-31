@@ -6,6 +6,7 @@ import { makeStyles, Typography, Grid, Paper } from '@material-ui/core'
 import PostForm from '../PostForm/PostForm'
 import {Redirect} from 'react-router'
 import { chatsKeysSelector, chatsSelector } from '../../store/selectors/chats'
+import { messagesLengthSelector } from '../../store/selectors/messages'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
@@ -35,8 +36,9 @@ function Chats ({chatId}) {
 
   const chats = useSelector(chatsSelector)
   const keys = useSelector(chatsKeysSelector)
+  let messages = useSelector(messagesLengthSelector)
 
-  const messages = (chats[chatId]) ? chats[chatId].messages : ''
+  messages = (chats[chatId]) ? messages[chatId] : ''
 
   useEffect(() => {
     if (!messages.length) return
@@ -62,7 +64,7 @@ function Chats ({chatId}) {
           </Grid>
         </Grid>
       </Paper>
-      {chatId ? <PostForm chatId={chatId} formRef={formRef}/> : null}
+      {chatId ? <PostForm formRef={formRef}/> : null}
     </>
   )
 }
