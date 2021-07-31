@@ -1,10 +1,5 @@
 import {useState, useRef, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import Icon from '@material-ui/core/Icon'
-import Grid from '@material-ui/core/Grid'
+import { makeStyles, TextField, Paper, Button, Icon, Grid } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +32,7 @@ function PostForm ({onAdd=f=>f, formRef}) {
     if (value.text.trim()) {
       onAdd(value)
 
-      const lastAuthor = value.author.length ? value.author : 'anonymous'
+      const lastAuthor = value.author || 'anonymous'
 
       timer.current = setTimeout(() => {
         const msg = bot(lastAuthor)

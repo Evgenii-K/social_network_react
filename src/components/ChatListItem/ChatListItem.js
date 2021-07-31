@@ -1,17 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ListItem from '@material-ui/core/ListItem'
-import Avatar from '@material-ui/core/Avatar'
-import { makeStyles } from '@material-ui/core/styles'
-import ListItemText from '@material-ui/core/ListItemText'
+import { makeStyles, ListItemText, Avatar, ListItem } from '@material-ui/core'
 
-
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   list: {
-    padding: '0 0'
+    padding: '0'
   },
   avatar: {
-    marginRight: '8px'
+    marginRight: theme.spacing(1)
   }
 }));
 

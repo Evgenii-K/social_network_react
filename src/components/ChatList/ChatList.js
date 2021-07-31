@@ -1,14 +1,9 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
-import List from '@material-ui/core/List'
 import ChatListItem from '../ChatListItem/ChatListItem'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, List, Button, TextField, IconButton } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField'
-import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -56,15 +51,16 @@ function ChatList ({chatsList, onDelete=f=>f, onAddChat=f=>f}) {
       }
     <Button variant="contained" color="primary" onClick={() => onAddChat(chatName)}>Add a new chat</Button>
     <TextField
-      size="small"
+      // size="small"
       color="secondary"
       variant="outlined"
       fullWidth
+      placeholder="New chat name"
       type='text'
       name='name'
       value={chatName}
       onChange={(event) => setChatName(event.target.value)}
-      label='New chat name'
+      // label='New chat name'
     />
     </List>
   )

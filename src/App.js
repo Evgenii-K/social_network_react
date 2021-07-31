@@ -19,7 +19,7 @@ const chatTheme = createTheme({
 })
 
 function App() {
-  
+
   return (
     <Router>
       <ThemeProvider theme={chatTheme}>

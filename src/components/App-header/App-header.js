@@ -1,5 +1,7 @@
 import {Link} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
+import './App-header.scss'
+import { useLocation } from 'react-router-dom'
 
 
 const useStyles = makeStyles(() => ({
@@ -7,9 +9,6 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between'
-  },
-  li: {
-    listStyleType: 'none',
   },
   link: {
     textDecoration: 'none',
@@ -28,6 +27,15 @@ const useStyles = makeStyles(() => ({
 function AppHeader () {
   const classes = useStyles()
 
+  const location = useLocation()
+
+  function activeLink (to, location) {
+    location = location.pathname.split('/')[1]
+    to = to.split('/')[1]
+
+    return to === location ? 'li active' : 'li'
+  }
+
   return (
     <header className={classes.AppHeader}>
       <h1>
@@ -35,13 +43,13 @@ function AppHeader () {
       </h1>
       <nav>
         <ul className={classes.ul}>
-          <li className={classes.li}>
+          <li className={activeLink('/', location)}>
             <Link to="/" className={classes.link}>Home</Link>
           </li>
-          <li className={classes.li}>
+          <li className={activeLink('/chats', location)}>
             <Link to="/chats" className={classes.link}>Chats</Link>
           </li>
-          <li className={classes.li}>
+          <li className={activeLink('/profile', location)}>
             <Link to="/profile" className={classes.link}>Profile</Link>
           </li>
         </ul>
