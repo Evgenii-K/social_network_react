@@ -1,6 +1,6 @@
 import FormControl from '@material-ui/core/FormControl';
 import {Input, Grid, FormHelperText, InputLabel, FormControlLabel, RadioGroup, Radio, Button, Icon, makeStyles } from '@material-ui/core';
-import * as actions from '../../store/actions'
+import * as actions from '../../store/actions/profileActions'
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({

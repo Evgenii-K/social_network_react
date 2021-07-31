@@ -5,9 +5,9 @@ import MessageList from '../MessageList/MessageList'
 import { makeStyles, Typography, Grid, Paper } from '@material-ui/core'
 import PostForm from '../PostForm/PostForm'
 import {Redirect} from 'react-router'
-import { chatsKeysSelector, chatsSelector } from '../../store/selectors/chats'
-import { messagesLengthSelector } from '../../store/selectors/messages'
+import { chatsKeysSelector } from '../../store/selectors/chatsSelectors'
 import { useSelector } from 'react-redux'
+import { messagesSelector } from '../../store/selectors/messages'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,15 +33,13 @@ function Chats ({chatId}) {
 
   const classes = useStyles()
   const formRef = useRef('')
-
-  const chats = useSelector(chatsSelector)
   const keys = useSelector(chatsKeysSelector)
-  let messages = useSelector(messagesLengthSelector)
+  let messages = useSelector(messagesSelector)
 
-  messages = (chats[chatId]) ? messages[chatId] : ''
+  messages = keys.includes(chatId) ? messages[chatId] : ''
 
   useEffect(() => {
-    if (!messages.length) return
+    if (!messages?.length) return
     window.scrollTo({ top: formRef.current.offsetTop, left: 0, behavior: 'smooth' })
   }, [messages])
 
@@ -60,7 +58,7 @@ function Chats ({chatId}) {
             <ChatList />
           </Grid>
           <Grid item xs={9} className={classes.root}>
-            {chatId ? <MessageList messages={messages}/> : <Typography className={classes.empty}>Select chat</Typography>}
+            {chatId ? <MessageList /> : <Typography className={classes.empty}>Select chat</Typography>}
           </Grid>
         </Grid>
       </Paper>

@@ -4,8 +4,8 @@ import { makeStyles, List, Button, TextField, IconButton } from '@material-ui/co
 import { Link } from 'react-router-dom'
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useDispatch, useSelector } from 'react-redux'
-import { chatsListInit } from '../../store/selectors/chats'
-import { addChatAction, onDeleteAction } from '../../store/actions'
+import { chatsListInit } from '../../store/selectors/chatsSelectors'
+import { addChatAction, onDeleteAction } from '../../store/actions/chatsActions'
 
 
 const useStyles = makeStyles((theme) => ({

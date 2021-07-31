@@ -2,7 +2,7 @@ import {useState, useRef, useEffect, useCallback } from 'react'
 import { makeStyles, TextField, Paper, Button, Icon, Grid } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-import { onAddMessageAction } from '../../store/actions'
+import { onAddMessageAction } from '../../store/actions/messagesActions'
 import { useRouteMatch } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +28,6 @@ function PostForm ({formRef}) {
   
   const onAdd = useCallback(
     (message) => {
-      // message = 
       dispatch(onAddMessageAction(message, chatId))
     },
     [dispatch, chatId],

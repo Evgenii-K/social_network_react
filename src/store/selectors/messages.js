@@ -1,1 +1,1 @@
-export const messagesLengthSelector = state => state.messages
+export const messagesSelector = state => state.messages

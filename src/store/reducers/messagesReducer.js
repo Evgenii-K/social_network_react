@@ -14,8 +14,13 @@ const initialStateMessages = {
 
 function onAddMessage (state, message, chatId) {
 
-  state[chatId] = [...state[chatId], message]
-    return {...state, [chatId]: state[chatId]}
+  if (state[chatId]) {
+    state[chatId] = [...state[chatId], message]
+  } else {
+    state[chatId] = [message]
+  }
+
+  return {...state, [chatId]: state[chatId]}
 }
 
 export default function stateMessages (state = initialStateMessages, actions) {
