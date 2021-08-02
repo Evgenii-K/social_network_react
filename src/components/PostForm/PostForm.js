@@ -1,8 +1,8 @@
-import {useState, useRef, useEffect, useCallback } from 'react'
+import {useState, useRef, useCallback } from 'react'
 import { makeStyles, TextField, Paper, Button, Icon, Grid } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-import { onAddMessageAction } from '../../store/actions/messagesActions'
+import { onAddMessageThunk } from '../../store/actions/messagesActions'
 import { useRouteMatch } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
@@ -26,16 +26,14 @@ function PostForm ({formRef}) {
   
   const dispatch = useDispatch()
   
-  const onAdd = useCallback(
+  const onAddMessage = useCallback(
     (message) => {
-      dispatch(onAddMessageAction(message, chatId))
+      dispatch(onAddMessageThunk(message, chatId))
     },
     [dispatch, chatId],
   )
   
   const classes = useStyles()
-
-  const timer = useRef(null)
 
   const [value, setValue] = useState(
     {
@@ -49,32 +47,10 @@ function PostForm ({formRef}) {
   function sendMessage (event) {
     event.preventDefault()
     if (value.text.trim()) {
-      onAdd(value)
-
-      const lastAuthor = value.author || 'anonymous'
-
-      timer.current = setTimeout(() => {
-        const msg = bot(lastAuthor)
-        onAdd(msg)
-      }, 1500)
-
-      setValue((current) => {
-        return {
-          text: '',
-          author: current.author.length ? current.author : ''
-        }
-      })
+      onAddMessage(value)
       inputRef.current.focus()
     }
   }
-
-  function bot (lastAuthor) {
-    return { text: `Привет ${lastAuthor}!`, author: 'Bot' }
-  }
-
-  useEffect(() => {
-    return () => clearTimeout(timer.current)
-  }, [])
 
   function onChange (event) {
     const value = event.target.value
@@ -85,7 +61,6 @@ function PostForm ({formRef}) {
       }
     })
   }
-
 
   return (
     <Paper className={classes.paper} ref={formRef}>

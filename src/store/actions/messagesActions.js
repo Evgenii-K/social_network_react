@@ -1,16 +1,26 @@
 import { ON_ADD_MESSAGE } from '../types'
 
-export const onAddMessageAction = (message, chatId) => {
-  
-  const { text, author } = message
-  const newMsg = {
-    id: Date.now(), 
-    text,
-    author: author === '' ? 'anonymous' : author
-  }
+export const onAddMessageThunk = (message, chatId) => dispatch => {
 
-  return (
-    ({type: ON_ADD_MESSAGE, payload: newMsg, chatId: chatId})
-  )
-  
+    const { text, author } = message
+    const newMsg = {
+      id: Date.now(), 
+      text,
+      author: author === '' ? 'anonymous' : author
+    }
+
+    dispatch(onAddMessageAction(newMsg, chatId))
+
+    if (author !== 'Bot') {
+      const newMsgBot = { 
+        id: Date.now(), 
+        text: `Привет ${author}!`, 
+        author: 'Bot' 
+      }
+      setTimeout(() => dispatch(onAddMessageAction(newMsgBot, chatId)), 1500)
+    }
+
 }
+
+const onAddMessageAction = (message, chatId) => ({type: ON_ADD_MESSAGE, payload: message, chatId: chatId})
+  
