@@ -1,7 +1,6 @@
 import Message from '../Message/Message'
 import { makeStyles, Paper, Typography } from '@material-ui/core'
-import { useRouteMatch } from 'react-router-dom'
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(() => ({
   paperChat: {
@@ -19,9 +18,6 @@ const useStyles = makeStyles(() => ({
 function MessageList ({messages}) {
 
   const classes = useStyles()
-  const { chatId }= useRouteMatch().params
-
-  messages = messages[chatId] || ''
 
   return (
     <Paper className={classes.paperChat}>
@@ -36,10 +32,8 @@ function MessageList ({messages}) {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    messages: state.messages
-  }
+MessageList.propTypes = {
+  messages: PropTypes.array
 }
 
-export default connect(mapStateToProps)(MessageList)
+export default MessageList

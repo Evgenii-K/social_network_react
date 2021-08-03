@@ -1,4 +1,4 @@
-import { ON_ADD_MESSAGE } from '../types'
+import { ON_ADD_MESSAGE, ON_DELETE_CHAT_MESSAGES } from '../types'
 
 export const onAddMessageThunk = (message, chatId) => dispatch => {
 
@@ -23,4 +23,6 @@ export const onAddMessageThunk = (message, chatId) => dispatch => {
 }
 
 const onAddMessageAction = (message, chatId) => ({type: ON_ADD_MESSAGE, payload: message, chatId: chatId})
+
+export const onDeleteChatMessages = (id) => ({type: ON_DELETE_CHAT_MESSAGES, payload: id})
   

@@ -1,9 +1,9 @@
 import { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import ChatList from '../ChatList/ChatList'
-import MessageList from '../MessageList/MessageList'
+import ChatListContainer from '../ChatListContainer/ChatListContainer'
+import MessageContainer from '../MessageContainer/MessageContainer'
 import { makeStyles, Typography, Grid, Paper } from '@material-ui/core'
-import PostForm from '../PostForm/PostForm'
+import PostFormContainer from '../PostFormContainer/PostFormContainer'
 import {Redirect} from 'react-router'
 import { chatsKeysSelector } from '../../store/selectors/chatsSelectors'
 import { useSelector } from 'react-redux'
@@ -55,14 +55,14 @@ function Chats ({chatId}) {
           alignItems="flex-start"
         >
           <Grid item xs={3}>
-            <ChatList />
+            <ChatListContainer />
           </Grid>
           <Grid item xs={9} className={classes.root}>
-            {chatId ? <MessageList /> : <Typography className={classes.empty}>Select chat</Typography>}
+            {chatId ? <MessageContainer /> : <Typography className={classes.empty}>Select chat</Typography>}
           </Grid>
         </Grid>
       </Paper>
-      {chatId ? <PostForm formRef={formRef}/> : null}
+      {chatId ? <PostFormContainer formRef={formRef}/> : null}
     </>
   )
 }

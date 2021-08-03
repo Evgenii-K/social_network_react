@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, ListItemText, Avatar, ListItem } from '@material-ui/core'
 

@@ -1,4 +1,4 @@
-import { ON_ADD_MESSAGE } from "../types"
+import { ON_ADD_MESSAGE, ON_DELETE_CHAT_MESSAGES } from "../types"
 
 
 const initialStateMessages = {
@@ -23,10 +23,20 @@ function onAddMessage (state, message, chatId) {
   return {...state, [chatId]: state[chatId]}
 }
 
+function onDeleteChatMessages (state, id) {
+  console.log('delete chat, id:', id);
+  return Object.fromEntries(
+    Object.entries(state)
+      .filter(chat => chat[0] !== id)
+  )
+}
+
 export default function stateMessages (state = initialStateMessages, actions) {
   switch (actions.type) {
     case ON_ADD_MESSAGE: 
       return onAddMessage(state, actions.payload, actions.chatId)
+    case ON_DELETE_CHAT_MESSAGES: 
+      return onDeleteChatMessages(state, actions.payload)
     default: 
       return state
   }

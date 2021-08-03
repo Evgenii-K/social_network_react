@@ -1,9 +1,5 @@
-import {useState, useRef, useCallback } from 'react'
 import { makeStyles, TextField, Paper, Button, Icon, Grid } from '@material-ui/core'
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
-import { onAddMessageThunk } from '../../store/actions/messagesActions'
-import { useRouteMatch } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,47 +16,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function PostForm ({formRef}) {
+function PostForm ({formRef, sendMessage, onChange, inputRef, value}) {
 
-  const { chatId }= useRouteMatch().params
-  
-  const dispatch = useDispatch()
-  
-  const onAddMessage = useCallback(
-    (message) => {
-      dispatch(onAddMessageThunk(message, chatId))
-    },
-    [dispatch, chatId],
-  )
-  
   const classes = useStyles()
-
-  const [value, setValue] = useState(
-    {
-      text: '', 
-      author: ''
-    }
-  )
-
-  const inputRef = useRef('')
-
-  function sendMessage (event) {
-    event.preventDefault()
-    if (value.text.trim()) {
-      onAddMessage(value)
-      inputRef.current.focus()
-    }
-  }
-
-  function onChange (event) {
-    const value = event.target.value
-    const name = event.target.name
-    setValue(current => {
-      return {
-        ...current, [name]: value
-      }
-    })
-  }
 
   return (
     <Paper className={classes.paper} ref={formRef}>
@@ -125,7 +83,11 @@ function PostForm ({formRef}) {
 }
 
 PostForm.propTypes = {
-  formRef: PropTypes.object
+  formRef: PropTypes.object,
+  inputRef: PropTypes.object,
+  value: PropTypes.object,
+  sendMessage: PropTypes.func,
+  onChange: PropTypes.func
 }
 
 export default PostForm
