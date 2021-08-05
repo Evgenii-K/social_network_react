@@ -15,7 +15,7 @@ function ChatListContainer () {
   const onDelete = useCallback(
     (id) => {
       dispatch(onDeleteAction(id))
-      dispatch(onDeleteChatMessages(id))
+      dispatch(onDeleteChatMessages(id)) // Или лучше вызывать onDeleteChatMessage в onDeleteAction ?
     },
     [dispatch],
   )
