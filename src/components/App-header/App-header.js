@@ -39,6 +39,9 @@ function AppHeader () {
           <li className={classNames('li', {'active' : '' === location})}>
             <Link to="/" className={classes.link}>Home</Link>
           </li>
+          <li className={classNames('li', {'active' : 'news' === location})}>
+            <Link to="/news" className={classes.link}>Artworks</Link>
+          </li>
           <li className={classNames('li', {'active' : 'chats' === location})}>
             <Link to="/chats" className={classes.link}>Chats</Link>
           </li>
