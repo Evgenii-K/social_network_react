@@ -1,17 +1,24 @@
+import { useEffect } from 'react'
 import { Button, LinearProgress } from '@material-ui/core'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { fetchNews } from '../../store/actions/newsActions'
 import NewsPost from '../NewsPost/NewsPost'
 import { selectedNews } from '../../store/selectors/newsSelector'
 import { loadSelector } from '../../store/selectors/loadSelector';
+import SimpleAlerts from '../Alert/Alert'
 
-export default function News () {
+function News ({text}) {
 
   const dispatch = useDispatch()
   const posts = useSelector(selectedNews)
   const loading = useSelector(loadSelector)
   const { config, data } = posts
   const randomPage = Math.round(Math.random()*10)
+  const url = `https://api.artic.edu/api/v1/artworks?page=${randomPage}&limit=10`
+
+  useEffect(() => {
+    dispatch(fetchNews(url))
+  }, [])
 
   return (
     <>
@@ -19,7 +26,7 @@ export default function News () {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => dispatch(fetchNews(`https://api.artic.edu/api/v1/artworks?page=${randomPage}&limit=10`))}
+        onClick={() => dispatch(fetchNews(url))}
       >
         Get artwork
       </Button>
@@ -27,11 +34,17 @@ export default function News () {
         <div style={{ marginTop: '16px', width: '100%' }}>
           <LinearProgress />
         </div>
-        :
-        data.map(post => <NewsPost post={post} key={post.id} image={`${config.iiif_url}/${post.image_id}/full/,200/0/default.jpg`} />)
+        : text ? 
+        <SimpleAlerts text={text}/>
+        : data.map(post => <NewsPost post={post} key={post.id} image={`${config.iiif_url}/${post.image_id}/full/,200/0/default.jpg`} />)
       }
+
     </>
   )
 }
 
-// image={`${config.iiif_url}/${post.image_id}/full/400,/0/default.jpg`}
+const mapStateToProps = state => ({
+  text: state.warning.text
+})
+
+export default connect(mapStateToProps)(News)

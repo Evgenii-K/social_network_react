@@ -31,7 +31,6 @@ export default function NewsPost ({post, image}) {
       })
     }
     if (h > w) {
-      console.log('h > w');
       const width = (w / h)*200
       padding = (padding / h)*200
       return ({
@@ -41,7 +40,6 @@ export default function NewsPost ({post, image}) {
         marginLeft: padding
       })
     } else {
-      console.log('h < w');
       const height = (h / w)*200
       padding = (padding / w)*200
       return ({
