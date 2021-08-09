@@ -20,16 +20,21 @@ export default function NewsPost ({post, image}) {
   const classes = useStyles();
 
   function formatingImage () {
+
+    const standartSize = {
+      height: 200,
+      width: 200
+    }
+
+    if (!post.dimensions) return standartSize
+
     const size = post.dimensions.split(' ');
     const h = +size[0]
     const w = +size[2]
     let padding = Math.abs((h - w) / 2)
-    if (Number.isNaN(padding)) {
-      return ({
-        height: 200,
-        width: 200
-      })
-    }
+
+    if (Number.isNaN(padding)) return standartSize
+
     if (h > w) {
       const width = (w / h)*200
       padding = (padding / h)*200

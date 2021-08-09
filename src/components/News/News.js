@@ -28,7 +28,7 @@ function News ({text}) {
         color="primary"
         onClick={() => dispatch(fetchNews(url))}
       >
-        Get artwork
+        Get some artwork
       </Button>
       {loading ?
         <div style={{ marginTop: '16px', width: '100%' }}>

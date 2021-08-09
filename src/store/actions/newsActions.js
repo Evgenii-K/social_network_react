@@ -7,8 +7,12 @@ export function fetchNews (url) {
       dispatch({type: SHOW_LOADER})
       dispatch(hideWarning())
 
-
       const responce = await fetch(url)
+
+      if (!responce.ok || responce.status !== 200) {
+        throw new Error('Something went wrong.')
+      }
+
       const posts = await responce.json()
   
       let timer = setTimeout(() => {
@@ -19,7 +23,7 @@ export function fetchNews (url) {
     } catch (error) {
       console.error(error)
       dispatch({type: HIDE_LOADER})
-      dispatch(showWarning('Reload page'))
+      dispatch(showWarning('Something went wrong. Reload the page.'))
     }
   }
 }
