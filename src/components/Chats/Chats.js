@@ -1,10 +1,13 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import ChatList from '../ChatList/ChatList'
-import MessageList from '../MessageList/MessageList'
+import ChatListContainer from '../ChatListContainer/ChatListContainer'
+import MessageContainer from '../MessageContainer/MessageContainer'
 import { makeStyles, Typography, Grid, Paper } from '@material-ui/core'
-import PostForm from '../PostForm/PostForm'
+import PostFormContainer from '../PostFormContainer/PostFormContainer'
 import {Redirect} from 'react-router'
+import { chatsKeysSelector } from '../../store/selectors/chatsSelectors'
+import { useSelector } from 'react-redux'
+import { messagesSelector } from '../../store/selectors/messages'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -30,66 +33,17 @@ function Chats ({chatId}) {
 
   const classes = useStyles()
   const formRef = useRef('')
+  const keys = useSelector(chatsKeysSelector)
+  let messages = useSelector(messagesSelector)
 
-  const [chats, setChats] = useState({
-    id1: { name: 'FirstChat', messages: [
-      {id: 1231, text: 'Привет', author: 'Ivan'},
-      {id: 1321, text: 'Привет', author: 'Bot'}
-    ]},
-    id2: { name: 'SecondChat', messages: [
-      {id: 1231, text: 'Bay', author: 'Jacob'},
-      {id: 1321, text: 'Bay', author: 'Bot'}
-    ]}
-  })
-
-  const messages = (chats[chatId]) ? chats[chatId].messages : ''
-  const keys = Object.keys(chats)
-  const chatsList = chatsListInit()
+  messages = keys.includes(chatId) ? messages[chatId] : ''
 
   useEffect(() => {
-    if (!messages.length) return
+    if (!messages?.length) return
     window.scrollTo({ top: formRef.current.offsetTop, left: 0, behavior: 'smooth' })
   }, [messages])
 
   if (chatId && !keys.includes(chatId)) return <Redirect to="/chats" />
-
-  function chatsListInit () {
-    return keys.map(key => ({id: key, name: chats[key].name}))
-  }
-
-  function onAdd ({text, author}) {
-    const newMsg = {
-      id: Date.now(), 
-      text,
-      author: author === '' ? 'anonymous' : author
-    }
-    setChats(current => {
-      current[chatId].messages = [...current[chatId].messages, newMsg]
-      return {...current, [chatId]: current[chatId]}
-    })
-  }
-
-  function onDelete (id) {
-    setChats(currentChats => {
-      return (
-        Object.fromEntries(
-          Object.entries(currentChats)
-            .filter(item => item[0] !== id)
-        )
-      )
-    })
-  }
-
-  function onAddChat (newName) {
-    let nextId = 'id0'
-    let keys = Object.keys(chats)
-    if (keys) {
-      keys = keys.map(key => key[2])
-      nextId = `id${Math.max.apply(null, keys) + 1}`
-    }
-
-    setChats(current => ({...current, [nextId]: {name: newName, messages: []}}))
-  }
 
   return (
     <>
@@ -101,14 +55,14 @@ function Chats ({chatId}) {
           alignItems="flex-start"
         >
           <Grid item xs={3}>
-            <ChatList chatsList={chatsList} onDelete={onDelete} onAddChat={onAddChat}/>
+            <ChatListContainer />
           </Grid>
           <Grid item xs={9} className={classes.root}>
-            {chatId ? <MessageList messages={messages}/> : <Typography className={classes.empty}>Select chat</Typography>}
+            {chatId ? <MessageContainer /> : <Typography className={classes.empty}>Select chat</Typography>}
           </Grid>
         </Grid>
       </Paper>
-      {chatId ? <PostForm onAdd={onAdd} formRef={formRef}/> : null}
+      {chatId ? <PostFormContainer formRef={formRef}/> : null}
     </>
   )
 }

@@ -1,11 +1,10 @@
-import {useState} from 'react'
-import PropTypes from 'prop-types'
 import ChatListItem from '../ChatListItem/ChatListItem'
-import { makeStyles, List, Button, TextField, IconButton } from '@material-ui/core'
+import { makeStyles, List, IconButton } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import DeleteIcon from '@material-ui/icons/Delete';
+import PropTypes from 'prop-types'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   list: {
     padding: 0
   },
@@ -16,17 +15,15 @@ const useStyles = makeStyles(() => ({
   },
   item: {
     display: 'flex',
-    paddingTop: '8px',
-    paddingBottom: '8px',
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
     alignItems: 'center'
   }
 }));
 
-function ChatList ({chatsList, onDelete=f=>f, onAddChat=f=>f}) {
+function ChatList ({onDelete=f=>f, chatsList={}}) {
 
   const classes = useStyles()
-
-  const [chatName, setChatName] = useState('')
 
   return (
     <List
@@ -37,7 +34,7 @@ function ChatList ({chatsList, onDelete=f=>f, onAddChat=f=>f}) {
           return (
             <div className={classes.item} key={chat.id}>
               <Link to={`/chats/${chat.id}`} className={classes.link}>
-                <ChatListItem name={chat.name} onDelete={onDelete}/>
+                <ChatListItem name={chat.name}/>
               </Link>
               <IconButton 
                 aria-label="delete" 
@@ -49,27 +46,13 @@ function ChatList ({chatsList, onDelete=f=>f, onAddChat=f=>f}) {
           )
         })
       }
-    <Button variant="contained" color="primary" onClick={() => onAddChat(chatName)}>Add a new chat</Button>
-    <TextField
-      // size="small"
-      color="secondary"
-      variant="outlined"
-      fullWidth
-      placeholder="New chat name"
-      type='text'
-      name='name'
-      value={chatName}
-      onChange={(event) => setChatName(event.target.value)}
-      // label='New chat name'
-    />
     </List>
   )
 }
 
 ChatList.propTypes = {
-  chatsList: PropTypes.array,
   onDelete: PropTypes.func,
-  onAddChat:PropTypes.func
+  chatsList: PropTypes.array
 }
 
 export default ChatList

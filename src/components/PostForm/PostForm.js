@@ -1,4 +1,3 @@
-import {useState, useRef, useEffect } from 'react'
 import { makeStyles, TextField, Paper, Button, Icon, Grid } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
@@ -9,64 +8,17 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
+  },
+  send: {
+    paddingTop: theme.spacing(2),
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 }));
 
-function PostForm ({onAdd=f=>f, formRef}) {
+function PostForm ({formRef, sendMessage, onChange, inputRef, value}) {
 
   const classes = useStyles()
-
-  const timer = useRef(null)
-
-  const [value, setValue] = useState(
-    {
-      text: '', 
-      author: ''
-    }
-  )
-
-  const inputRef = useRef('')
-
-  function sendMessage (event) {
-    event.preventDefault()
-    if (value.text.trim()) {
-      onAdd(value)
-
-      const lastAuthor = value.author || 'anonymous'
-
-      timer.current = setTimeout(() => {
-        const msg = bot(lastAuthor)
-        onAdd(msg)
-      }, 1500)
-
-      setValue((current) => {
-        return {
-          text: '',
-          author: current.author.length ? current.author : ''
-        }
-      })
-      inputRef.current.focus()
-    }
-  }
-
-  function bot (lastAuthor) {
-    return { text: `Привет ${lastAuthor}!`, author: 'Bot' }
-  }
-
-  useEffect(() => {
-    return () => clearTimeout(timer.current)
-  }, [])
-
-  function onChange (event) {
-    const value = event.target.value
-    const name = event.target.name
-    setValue(current => {
-      return {
-        ...current, [name]: value
-      }
-    })
-  }
-
 
   return (
     <Paper className={classes.paper} ref={formRef}>
@@ -96,8 +48,9 @@ function PostForm ({onAdd=f=>f, formRef}) {
           direction="row"
           justifyContent="center"
           alignItems="center"
+          className={classes.send}
         >
-          <Grid item xs={10}>
+          <Grid item xs={9}>
             <TextField
               variant="outlined"
               size="small"
@@ -130,8 +83,11 @@ function PostForm ({onAdd=f=>f, formRef}) {
 }
 
 PostForm.propTypes = {
-  onAdd: PropTypes.func,
-  formRef: PropTypes.object
+  formRef: PropTypes.object,
+  inputRef: PropTypes.object,
+  value: PropTypes.object,
+  sendMessage: PropTypes.func,
+  onChange: PropTypes.func
 }
 
 export default PostForm

@@ -1,8 +1,6 @@
-import PropTypes from 'prop-types'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
 import Message from '../Message/Message'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, Paper, Typography } from '@material-ui/core'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(() => ({
   paperChat: {
@@ -34,7 +32,7 @@ function MessageList ({messages}) {
   )
 }
 
-MessageList.prpTypes = {
+MessageList.propTypes = {
   messages: PropTypes.array
 }
 
