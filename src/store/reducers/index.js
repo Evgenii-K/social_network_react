@@ -5,6 +5,7 @@ import stateMessages from './messagesReducer'
 import stateNews from './newsReducer'
 import loadState from './loadReducer'
 import stateWarning from './warningReducer'
+import stateLogin from './loginReducer'
 
 export default combineReducers({
   profile: stateProfile,
@@ -12,5 +13,6 @@ export default combineReducers({
   messages: stateMessages,
   news: stateNews,
   load: loadState,
-  warning: stateWarning
+  warning: stateWarning,
+  login: stateLogin
 })

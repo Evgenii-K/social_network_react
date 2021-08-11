@@ -48,6 +48,9 @@ function AppHeader () {
           <li className={classNames('li', {'active' : 'profile' === location})}>
             <Link to="/profile" className={classes.link}>Profile</Link>
           </li>
+          <li className={classNames('li', {'active' : 'login' === location})}>
+            <Link to="/login" className={classes.link}>Login</Link>
+          </li>
         </ul>
       </nav>
     </header>

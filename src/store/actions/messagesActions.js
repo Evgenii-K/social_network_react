@@ -17,7 +17,11 @@ export const onAddMessageThunk = (message, chatId) => dispatch => {
         text: `Привет ${author}!`, 
         author: 'Bot' 
       }
-      setTimeout(() => dispatch(onAddMessageAction(newMsgBot, chatId)), 1500) // В useEffect вызывали clearTimeout в return, а нужно ли здесь очищать timeout и если да то каким методом ?
+      
+      let timer = setTimeout(() => {
+        dispatch(onAddMessageAction(newMsgBot, chatId))
+        clearTimeout(timer)
+      }, 1000)
     }
 
 }
