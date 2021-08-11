@@ -1,0 +1,1 @@
+export const selectedNews = state => state.news.posts

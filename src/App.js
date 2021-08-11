@@ -3,6 +3,7 @@ import Container from '@material-ui/core/Container';
 import Chats from './components/Chats/Chats'
 import HomePage from './components/HomePage/HomePage'
 import Profile from './components/Profile/Profile'
+import News from './components/News/News'
 import AppHeader from './components/App-header/App-header'
 import Page404 from './components/Page404/Page404'
 import { createTheme, ThemeProvider } from '@material-ui/core/styles'
@@ -42,6 +43,9 @@ function App() {
                 return <Chats chatId={chatId}/>
               }
             } />
+            <Route path='/news'>
+              <News />
+            </Route>
             <Route>
               <Page404 />
             </Route>
