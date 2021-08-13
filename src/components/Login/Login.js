@@ -54,12 +54,12 @@ function Login ({values, handleChange}) {
       } catch (error) {
         setErrorMessage(error.message)
       }
-    }
-
-    try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password)
-    } catch (error) {
-      setErrorMessage(error.message)
+    } else {
+      try {
+        await firebase.auth().createUserWithEmailAndPassword(email, password)
+      } catch (error) {
+        setErrorMessage(error.message)
+      }
     }
   }
 
