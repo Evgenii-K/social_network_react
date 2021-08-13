@@ -6,6 +6,10 @@
     transition: color .3s ease-in-out 0s;
   }
 
+  &:hover {
+    cursor: pointer;
+  }
+
   &:hover > a {
     color: grey;
   }

@@ -3,6 +3,7 @@ import firebase from 'firebase'
 const firebaseConfig = {
   apiKey: "AIzaSyCZ5g8f75QUqBuSGpDU9KrKIIxUb44PTcA",
   authDomain: "social-network-react-gb.firebaseapp.com",
+  databaseURL: "https://social-network-react-gb-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "social-network-react-gb",
   storageBucket: "social-network-react-gb.appspot.com",
   messagingSenderId: "584059593686",

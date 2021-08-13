@@ -1,11 +1,11 @@
-import { LOGIN_HANDLECHANGE } from "../types"
+import { LOGIN_HANDLECHANGE, IS_AUTHED } from "../types"
 
 const initialStateLogin = {
   values: {
-    isRegister: false,
     email: '',
     password: ''
-  }
+  },
+  isAuthed: false
 }
 
 export default function stateLogin (state = initialStateLogin, actions) {
@@ -17,6 +17,8 @@ export default function stateLogin (state = initialStateLogin, actions) {
       return {
         ...state, values
       }
+    case IS_AUTHED:
+      return ({...state, isAuthed: actions.payload})
     default: 
       return state
   }
