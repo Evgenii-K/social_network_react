@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
   },
   msg: {
     padding: `${theme.spacing(1)}px 0`,
-    // borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
   }
 }));
 

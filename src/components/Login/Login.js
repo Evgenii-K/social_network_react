@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {Input, Grid, FormHelperText, InputLabel, FormControlLabel, Checkbox,  Button, Icon, makeStyles, InputAdornment, IconButton  } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 import * as actions from '../../store/actions/loginActions'
@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import firebase from 'firebase';
 import { isAuthChanged } from '../../store/actions/loginActions'
 import { useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,8 +14,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function Login ({values, handleChange}) {
-
-  const { isAuthed } = useSelector(state => state.login)
 
   const classes = useStyles()
   const { email, password } = values
