@@ -8,13 +8,13 @@ jest.mock('react-redux', () => ({
 
 describe('MessagesList', () => {
   it('Should contain "Message list is empty"', () => {
-   
+    
     render(
-        <Provider store={{
-          dispatch: jest.fn()
-        }}>
-          <MessageList messages={[]}/>
-        </Provider>
+      <Provider store={{
+        dispatch: jest.fn()
+      }}>
+        <MessageList messages={[]}/>
+      </Provider>
     )
 
     const message = screen.getByText('Message list is empty')

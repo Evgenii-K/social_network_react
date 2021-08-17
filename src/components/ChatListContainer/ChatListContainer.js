@@ -1,12 +1,16 @@
-import {useState, useCallback} from 'react'
+import {useState, useCallback, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { chatsListInit } from '../../store/selectors/chatsSelectors'
-import { addChatAction, onDeleteAction } from '../../store/actions/chatsActions'
+import { addChat, deleteChat, subscribeOnChats } from '../../store/actions/chatsActions'
 import { onDeleteChatMessages } from '../../store/actions/messagesActions'
 import ChatList from '../ChatList/ChatList'
 import ChatListAddForm from '../ChatListAddForm/ChatListAddForm'
 
 function ChatListContainer () {
+
+  useEffect(() => {
+    dispatch(subscribeOnChats())
+  }, [])
 
   const dispatch = useDispatch()
 
@@ -14,7 +18,7 @@ function ChatListContainer () {
 
   const onDelete = useCallback(
     (id) => {
-      dispatch(onDeleteAction(id))
+      dispatch(deleteChat(id))
       dispatch(onDeleteChatMessages(id)) // Или лучше вызывать onDeleteChatMessage в onDeleteAction ?
     },
     [dispatch],
@@ -22,7 +26,7 @@ function ChatListContainer () {
   
   const onAddChat = useCallback(
     (newName) => {
-      dispatch(addChatAction(newName))
+      dispatch(addChat(newName))
     },
     [dispatch],
   )

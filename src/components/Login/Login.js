@@ -42,11 +42,6 @@ function Login ({values, handleChange}) {
     if (!isRegister) {
       try {
         await firebase.auth().signInWithEmailAndPassword(email, password)
-        await firebase.auth().onAuthStateChanged((user) => {
-          if (user) {
-            dispatch(isAuthChanged(true))
-          }
-        })
       } catch (error) {
         setErrorMessage(error.message)
       }
