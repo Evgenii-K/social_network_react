@@ -4,8 +4,6 @@ import { Visibility, VisibilityOff } from '@material-ui/icons'
 import * as actions from '../../store/actions/loginActions'
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import { isAuthChanged } from '../../store/actions/loginActions'
-import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,8 +15,6 @@ function Login ({values, handleChange}) {
 
   const classes = useStyles()
   const { email, password } = values
-
-  const dispatch = useDispatch()
 
   const [isRegister, setIsRegister] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
