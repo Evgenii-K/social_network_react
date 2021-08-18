@@ -20,17 +20,17 @@ class MessageWithoutStyles extends PureComponent {
 
   render () {
 
-    const { classes }  = this.props
+    const { classes, author, text }  = this.props
 
     return (
       <Paper variant="outlined" className={classes.paper}>
         <Grid className={classes.grid}>
           <Grid item xs={12}>
-            <Typography color="primary">{ this.props.author }</Typography>
+            <Typography color="primary">{ author }</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography className={classes.msg} >
-              { this.props.text }
+              { text }
             </Typography>
           </Grid>
         </Grid>
