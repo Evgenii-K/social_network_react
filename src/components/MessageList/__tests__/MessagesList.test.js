@@ -1,18 +1,27 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import MessageList from "../MessageList";
 import { Provider } from 'react-redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
+import thunk from 'redux-thunk'
 
-jest.mock('react-redux', () => ({
-  useDispatch: jest.fn(),
+jest.mock('firebase', () => ({
+  __esModule: true,
+  default: {
+    database: () => ({
+      ref: () => ({ on: jest.fn() })
+    }),
+  }
 }))
 
 describe('MessagesList', () => {
   it('Should contain "Message list is empty"', () => {
+
+    const store = createStore(combineReducers({
+      messages: jest.fn(() => [])
+    }), applyMiddleware(thunk))
     
     render(
-      <Provider store={{
-        dispatch: jest.fn()
-      }}>
+      <Provider store={store}>
         <MessageList messages={[]}/>
       </Provider>
     )
