@@ -1,28 +1,58 @@
 import { ON_ADD_MESSAGE, ON_DELETE_CHAT_MESSAGES } from '../types'
+import firebase from 'firebase'
 
-export const onAddMessageThunk = (message, chatId) => dispatch => {
+const getPayloadFromSnapshot = (snapshot) => {
+  const messages = [];
 
-    const { text, author } = message
-    const newMsg = {
-      id: Date.now(), 
-      text,
-      author: author === '' ? 'anonymous' : author
-    }
+  snapshot.forEach((message) => {
+    messages.push({...message.val(), id: message.key});
+  });
 
-    dispatch(onAddMessageAction(newMsg, chatId))
+  return { chatId: snapshot.key, messages }
+}
+
+export const onAddMessageThunk = (message, chatId) => async () => {
+
+    let { text, author } = message
+    author = author === '' ? 'anonymous' : author
+    let id = Date.now()
+
+    firebase.database().ref('messages').child(chatId).child(id).set({text, author})
 
     if (author !== 'Bot') {
-      const newMsgBot = { 
-        id: Date.now(), 
-        text: `Привет ${author}!`, 
-        author: 'Bot' 
-      }
-      setTimeout(() => dispatch(onAddMessageAction(newMsgBot, chatId)), 1500) // В useEffect вызывали clearTimeout в return, а нужно ли здесь очищать timeout и если да то каким методом ?
+      id = Date.now()
+      text = `Привет ${author}!`
+      author = 'Bot'
+      
+      let timer = setTimeout(() => {
+        firebase.database().ref('messages').child(chatId).child(id).set({text, author})
+        clearTimeout(timer)
+      }, 1000)
     }
 
 }
 
-const onAddMessageAction = (message, chatId) => ({type: ON_ADD_MESSAGE, payload: message, chatId: chatId})
+export const onAddMessageAction = (payload) => ({type: ON_ADD_MESSAGE, payload})
 
 export const onDeleteChatMessages = (id) => ({type: ON_DELETE_CHAT_MESSAGES, payload: id})
-  
+
+export function subscribeOnMessage () {
+  return dispatch => {
+    firebase
+      .database()
+      .ref('messages')
+      .on('child_added', snapshot => {
+        const payload = getPayloadFromSnapshot(snapshot);
+        dispatch(onAddMessageAction(payload))
+      })
+
+    firebase
+      .database()
+      .ref('messages')
+      .on('child_changed', snapshot => {
+      const payload = getPayloadFromSnapshot(snapshot);
+      dispatch(onAddMessageAction(payload))
+    })
+  }
+}
+ 

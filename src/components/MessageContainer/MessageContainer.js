@@ -8,12 +8,11 @@ function MessageContainer ({messages}) {
   messages = messages[chatId] || []
 
   return <MessageList messages={messages} />
-
 }
 
 const mapStateToProps = (state) => {
   return {
-    messages: state.messages
+    messages: state.messages.messages
   }
 }
 

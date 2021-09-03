@@ -7,7 +7,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-
 function ChatListAddForm ({onAddChat, setName, chatName}) {
 
   const classes = useStyles()

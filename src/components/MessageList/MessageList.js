@@ -1,6 +1,9 @@
 import Message from '../Message/Message'
 import { makeStyles, Paper, Typography } from '@material-ui/core'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react'
+import { subscribeOnMessage } from '../../store/actions/messagesActions'
 
 const useStyles = makeStyles(() => ({
   paperChat: {
@@ -18,6 +21,11 @@ const useStyles = makeStyles(() => ({
 function MessageList ({messages}) {
 
   const classes = useStyles()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(subscribeOnMessage())
+  }, [])
 
   return (
     <Paper className={classes.paperChat}>
