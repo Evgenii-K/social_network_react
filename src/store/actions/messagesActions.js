@@ -34,7 +34,19 @@ export const onAddMessageThunk = (message, chatId) => async () => {
 
 export const onAddMessageAction = (payload) => ({type: ON_ADD_MESSAGE, payload})
 
-export const onDeleteChatMessages = (id) => ({type: ON_DELETE_CHAT_MESSAGES, payload: id})
+export const onDeleteChatMessages = (chatId) => {
+  return async (dispatch) => {
+      try {
+          await firebase.database().ref('messages').child(chatId).remove()
+
+          dispatch(onDeleteMessagesAction(chatId))
+      } catch (error) {
+          console.error(error.message)
+      }
+  }
+}
+
+export const onDeleteMessagesAction = (id) => ({type: ON_DELETE_CHAT_MESSAGES, payload: id})
 
 export function subscribeOnMessage () {
   return dispatch => {

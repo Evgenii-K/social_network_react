@@ -1,8 +1,9 @@
-import React from 'react'
+import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles, Typography, Paper, Grid } from '@material-ui/core'
+import { Typography, Paper, Grid } from '@material-ui/core'
+import { withStyles as Message } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = theme => ({
   paper: {
     margin: `${theme.spacing(1)}px`,
   },
@@ -12,33 +13,35 @@ const useStyles = makeStyles((theme) => ({
   },
   msg: {
     padding: `${theme.spacing(1)}px 0`,
-    // borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
   }
-}));
+});
 
-function Message({text, author}) {
+class MessageWithoutStyles extends PureComponent {
 
-  const classes = useStyles()
+  render () {
 
-  return (
-    <Paper variant="outlined" className={classes.paper}>
-      <Grid className={classes.grid}>
-        <Grid item xs={12}>
-          <Typography color="primary">{ author }</Typography>
+    const { classes, author, text }  = this.props
+
+    return (
+      <Paper variant="outlined" className={classes.paper}>
+        <Grid className={classes.grid}>
+          <Grid item xs={12}>
+            <Typography color="primary">{ author }</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography className={classes.msg} >
+              { text }
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Typography className={classes.msg} >
-            { text }
-          </Typography>
-        </Grid>
-      </Grid>
-    </Paper>
-  );
+      </Paper>
+    );
+  }
 }
 
 Message.propTypes = {
   text: PropTypes.string,
-  author: PropTypes.string
+  author: PropTypes.string,
 }
 
-export default Message
+export default Message(useStyles, { withTheme: true })(MessageWithoutStyles)
